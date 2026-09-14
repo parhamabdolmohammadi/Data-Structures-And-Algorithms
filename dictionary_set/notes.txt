@@ -1,0 +1,18 @@
+
+# | Operation         | Time Complexity |                Space Complexity |
+# | ----------------- | --------------: | ------------------------------: |
+# | `__init__()`      |        **O(1)** |                        **O(1)** |
+# | `Node.__init__()` |        **O(1)** |                        **O(1)** |
+# | `get_value()`     |        **O(1)** |                        **O(1)** |
+# | `set_next()`      |        **O(1)** |                        **O(1)** |
+# | `get_next()`      |        **O(1)** |                        **O(1)** |
+# | `add_first()`     |        **O(1)** |                        **O(1)** |
+# | `add_last()`      |        **O(1)** |                        **O(1)** |
+# | `delete_first()`  |        **O(1)** |                        **O(1)** |
+# | `delete_last()`   |        **O(n)** |                        **O(1)** |
+# | `contains()`      |        **O(n)** |                        **O(1)** |
+# | `index_of()`      |        **O(n)** |                        **O(1)** |
+# | `to_array()`      |        **O(n)** |                        **O(n)** |
+# | `reverse()`       |        **O(n)** |                        **O(1)** |
+# | `kth_node_end()`  |        **O(n)** |                        **O(1)** |
+# | `print()`         |        **O(n)** | **O(n)** in your implementation |
