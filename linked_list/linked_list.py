@@ -48,3 +48,37 @@ class LinkedList:
         self.__first: LinkedList.Node = None
         self.__last: LinkedList.Node = None
         self.__size = 0
+
+    def add_first(self, value):
+        """
+        Insert a new node at the beginning of the linked list.
+
+        Updates the 'first' pointer and, if the list was empty,
+        also updates the 'last' pointer.
+        """
+
+        if self.__first is None:
+            self.add_last(value)
+        else:
+            new_node = LinkedList.Node(value)
+
+            new_node.set_next(self.__first)
+            self.__first = new_node
+            self.__size += 1
+
+    def add_last(self, value: Number) -> None:
+        """
+        Insert a new node at the end of the linked list.
+
+        Updates the 'last' pointer and, if the list was empty,
+        also updates the 'first' pointer.
+        """
+        new_node = LinkedList.Node(value)
+
+        if self.__first is None:
+            self.__first = self.__last = new_node
+        else:
+            self.__last.set_next(new_node)
+            self.__last = new_node
+
+        self.__size += 1
