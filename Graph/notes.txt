@@ -1,0 +1,477 @@
+## Graph
+
+    A **Graph** is a data structure made of **nodes**, also called vertices, and **edges** that connect those nodes.
+
+    In this implementation, the graph is a **directed graph** and uses an **adjacency list**. Each node is stored in a dictionary, and every node has a linked list containing its neighboring nodes.
+
+    ### Add Node
+
+        The **add_node** function creates a new node and stores it in the graph.
+
+        The node is added to the nodes dictionary, and a new empty linked list is created for its adjacency list.
+
+        Dictionary insertion is usually constant time.
+
+        **Average Time Complexity: O(1).**
+
+        Because dictionary operations can degrade because of hash collisions:
+
+        **Worst Time Complexity: O(V).**
+
+        **Space Complexity: O(1) per added node.**
+
+    ### Add Edge
+
+        The **add_edge** function creates a directed connection from one node to another.
+
+        First, it finds the two nodes. Then the destination node is added to the adjacency list of the source node.
+
+        For example:
+
+        ```text
+        A → B
+        ```
+
+        means there is an edge from `A` to `B`.
+
+        Because adding to the end of the linked list is constant time:
+
+        **Time Complexity: O(1).**
+
+        **Space Complexity: O(1) per edge.**
+
+    ### Remove Node
+
+        The **remove_node** function removes a node from the graph.
+
+        Before deleting the node, the algorithm goes through the other adjacency lists and removes any edges that point to that node.
+
+        Because every node and potentially every edge may need to be checked:
+
+        **Time Complexity: O(V + E).**
+
+        **Space Complexity: O(1).**
+
+    ### Remove Edge
+
+        The **remove_edge** function removes a connection between two nodes.
+
+        Since the neighbors are stored in a linked list, the linked list may need to be traversed to find the correct edge.
+
+        **Time Complexity: O(E) in the worst case.**
+
+        **Space Complexity: O(1).**
+
+    ### Recursive Depth-First Search
+
+        **Depth-First Search**, or DFS, explores one path of the graph as deeply as possible before going back and trying another path.
+
+        The recursive implementation uses a stack and a list of visited nodes.
+
+        In a standard optimized graph implementation:
+
+        **General DFS Time Complexity: O(V + E).**
+
+        However, in this implementation, `visited_nodes` is a list. Checking:
+
+        ```python
+        node in visited_nodes
+        ```
+
+        can take O(V) time.
+
+        The neighbors are also sorted before being added to the stack.
+
+        Because of this:
+
+        **Time Complexity in this implementation: O(V² + E).**
+
+        The visited list and recursive stack may contain up to V nodes.
+
+        **Space Complexity: O(V).**
+
+    ### Iterative Depth-First Search
+
+        The **iterative DFS** performs the same type of traversal, but instead of recursion it explicitly uses a stack.
+
+        A node is removed from the stack, marked as visited, and then its unvisited neighbors are added to the stack.
+
+        A standard DFS would have:
+
+        **General Time Complexity: O(V + E).**
+
+        In this implementation, list membership checks such as:
+
+        ```python
+        node not in visited_nodes
+        ```
+
+        take O(V), and neighbors are also sorted.
+
+        Therefore:
+
+        **Time Complexity in this implementation: O(V² + E).**
+
+        The stack and visited list can store up to V nodes.
+
+        **Space Complexity: O(V).**
+
+    ### Breadth-First Search
+
+        **Breadth-First Search**, or BFS, explores the graph one level at a time.
+
+        It starts from a node, visits its neighbors, then visits the neighbors of those nodes.
+
+        BFS normally uses a queue.
+
+        A standard BFS has:
+
+        **General Time Complexity: O(V + E).**
+
+        In this implementation, the queue is a Python list and uses operations such as:
+
+        ```python
+        queue.pop(0)
+        ```
+
+        and list membership checks.
+
+        Removing index zero from a Python list requires shifting elements, which increases the running time.
+
+        Therefore:
+
+        **Time Complexity in this implementation: O(V² + E).**
+
+        The queue and visited list may store up to V nodes.
+
+        **Space Complexity: O(V).**
+
+    ### Get Weight
+
+        The **get_weight** function assigns a numeric weight to a node label.
+
+        It processes each character of the label and calculates a value based on the character and its position.
+
+        If the label has `m` characters:
+
+        **Time Complexity: O(m).**
+
+        **Space Complexity: O(1).**
+
+        ### Topological Sort
+
+        A **topological sort** returns the nodes of a directed graph in an order where a node appears before the nodes that depend on it.
+
+        Topological sort only works if the graph is a **Directed Acyclic Graph**, also called a DAG.
+
+        This implementation first checks whether the graph contains a cycle. Then it uses DFS and adds each node to a stack after visiting its neighbors.
+
+        Each node and edge is processed once.
+
+        **Time Complexity: O(V + E).**
+
+        The visited set and stack can contain up to V nodes.
+
+        **Space Complexity: O(V).**
+
+    ### Cycle Detection
+
+        The **has_cycle** function checks whether the directed graph contains a cycle.
+
+        It uses two sets:
+
+        ```text
+        visiting
+        visited
+        ```
+
+        `visiting` contains nodes that are currently part of the recursive path.
+
+        `visited` contains nodes that have already been completely processed.
+
+        If the algorithm reaches a node that is already inside `visiting`, a cycle has been found.
+
+        For example:
+
+        ```text
+        A → B → C
+        ↑       ↓
+        └───────┘
+        ```
+
+        Each node is visited once and each edge is checked once.
+
+        **Time Complexity: O(V + E).**
+
+        The two sets and recursive call stack may contain up to V nodes.
+
+        **Space Complexity: O(V).**
+
+    ### Overall Complexity
+
+        The important operations in this Graph implementation are:
+
+        **Add Node: O(1) average, O(V) worst case.**
+
+        **Add Edge: O(1).**
+
+        **Remove Node: O(V + E).**
+
+        **Remove Edge: O(E) worst case.**
+
+        **Recursive DFS: O(V + E) 
+
+        **Iterative DFS: O(v + E) 
+
+        **BFS: O(V + E) 
+
+        **Topological Sort: O(V + E).**
+
+        **Cycle Detection: O(V + E).**
+
+        Here, `V` represents the number of vertices and `E` represents the number of edges.
+
+        A normal optimized DFS or BFS using a `set` for visited nodes and a proper queue such as `deque` would normally run in:
+
+        **Time Complexity: O(V + E).**
+
+        Overall, adjacency lists are especially efficient for graphs where each node is connected to only a relatively small number of other nodes.
+
+
+
+
+
+
+
+
+
+
+
+Weighted Graph
+
+    A Weighted Graph is a graph where each edge has a numerical value called a weight.
+
+    The weight can represent things such as distance, cost, time, or difficulty.
+
+    In this implementation, the graph is undirected, which means when an edge is added from A to B, another edge is also added from B to A. Each node is stored in a dictionary, and each adjacency list stores Edge objects containing the source node, destination node, and weight.
+
+    Add Node
+
+        The add_node function creates a new node if the label does not already exist.
+
+        The node is stored in the nodes dictionary, and an empty adjacency list is created for it.
+
+        Dictionary insertion is usually constant time.
+
+        Average Time Complexity: O(1).
+
+        In the worst case, hash collisions can make dictionary operations slower.
+
+        Worst Time Complexity: O(V).
+
+        Space Complexity: O(1) per added node.
+
+    Add Edge
+
+        The add_edge function connects two nodes using a weight.
+
+        Because the graph is undirected, two edges are created:
+
+        A → B
+        B → A
+
+        Both edges have the same weight.
+
+        Appending each edge to an adjacency list is constant time.
+
+        Time Complexity: O(1).
+
+        Space Complexity: O(1) per edge insertion.
+
+    Shortest Distance
+
+        The get_shortest_distance function finds the shortest weighted distance between two nodes.
+
+        It uses a version of Dijkstra's algorithm.
+
+        At the beginning, every node is given an infinite distance except the starting node, which has distance zero.
+
+        The algorithm then repeatedly relaxes edges and updates a neighbor's distance if a shorter path is found.
+
+        For example, if we have:
+
+        A --3-- B --1-- E
+
+        A --2-- D --6-- B
+
+        the algorithm compares possible routes and keeps the smallest known distance.
+
+        In the standard optimized implementation using a priority queue:
+
+        General Time Complexity: O((V + E) log V).
+
+        However, this implementation scans all nodes to find the next closest unvisited node instead of using a priority queue.
+
+        Time Complexity in this implementation: O(V² + E).
+
+        The distances dictionary stores information for every node.
+
+        Space Complexity: O(V).
+
+    Edge Relaxation
+
+        During Dijkstra's algorithm, the algorithm calculates:
+
+        new distance =
+        current distance + edge weight
+
+        If the new distance is smaller than the previously known distance, the distance and previous node are updated.
+
+        This process is called relaxation.
+
+        Across the entire algorithm, the edges contribute:
+
+        Time Complexity: O(E).
+
+        Finding the Next Closest Node
+
+        After processing the current node's edges, the implementation scans the distances dictionary to find the closest unvisited node.
+
+        Because this scan may examine all V vertices, it takes:
+
+        Time Complexity: O(V) per selection.
+
+        Since this can happen for many vertices, it is the main reason this version of Dijkstra becomes:
+
+        Overall Time Complexity: O(V² + E).
+
+    Shortest Path
+
+        The get_shortest_path function returns the actual route rather than only the distance.
+
+        The algorithm stores the previous node for every node whose distance is updated.
+
+        After reaching the destination, it follows those previous-node references backward and places the nodes into a stack.
+
+        The stack is then popped to create the path in the correct order.
+
+        For example:
+
+        A → B → E
+
+        The path reconstruction may process up to V nodes.
+
+        Path Reconstruction Time Complexity: O(V).
+
+        Space Complexity: O(V).
+
+    Cycle Detection
+
+        The has_cycle function determines whether the undirected weighted graph contains a cycle.
+
+        It uses DFS along with visiting and visited sets.
+
+        Because the graph is undirected, the algorithm also keeps track of the parent node.
+
+        This is important because when moving from A to B, the edge from B back to A should not automatically be considered a cycle.
+
+        Each node and edge is processed a constant number of times.
+
+        Time Complexity: O(V + E).
+
+        The sets and recursive call stack can store up to V nodes.
+
+        Space Complexity: O(V).
+
+    Minimum Spanning Tree
+
+        A Minimum Spanning Tree, or MST, connects all vertices using the minimum possible total edge weight without creating unnecessary cycles.
+
+        This implementation uses Prim's algorithm.
+
+        The algorithm begins from one node and repeatedly chooses the smallest available edge that connects to an unvisited node.
+
+        For example:
+
+        A --2-- D
+        A --3-- B
+        A --4-- C
+        B --1-- E
+
+        Prim's algorithm keeps choosing the cheapest useful edge until all vertices are connected.
+
+        Prim's Algorithm in This Implementation
+
+        This version stores candidate edges inside a normal list.
+
+        To find the minimum edge, it scans the available edges.
+
+        It also uses lists for visited and unvisited nodes.
+
+        Because of those linear scans:
+
+        Time Complexity: O(VE).
+
+        For a dense graph where E can approach V²:
+
+        Worst Dense-Graph Time Complexity: O(V³).
+
+        The algorithm stores vertices and candidate edges.
+
+        Space Complexity: O(V + E).
+
+    Adding Available Edges
+
+        The __add_to_available_edges function adds edges connected to the current node into the candidate-edge list.
+
+        It also checks whether each edge is already in the list.
+
+        Because list membership checking is linear, this can become expensive.
+
+        Time Complexity: up to O(E²) contribution in the worst case.
+
+        Using a set could improve membership checking to approximately O(1) average.
+
+    Optimized Prim's Algorithm
+
+        The class also contains a more standard version of Prim's algorithm using Python's heapq.
+
+        A min-heap allows the algorithm to efficiently retrieve the smallest available edge.
+
+        Each heap push or pop takes logarithmic time.
+
+        Time Complexity: O((V + E) log E).
+
+        This is commonly simplified for graph analysis to:
+
+        Time Complexity: O(E log V).
+
+        The visited set, heap, and MST edge list require:
+
+        Space Complexity: O(V + E).
+
+    Overall Complexity
+
+        The most important operations in this Weighted Graph are:
+
+        Add Node: O(1) average.
+
+        Add Edge: O(1).
+
+                
+
+        Optimized Dijkstra with a priority queue: Time Complexity:
+            O((V + E) log V)
+
+        Space Complexity:
+            O(V + E)
+
+        Cycle Detection: O(V + E).
+
+        Prim's MST in this implementation: O(VE).
+
+        Optimized Prim with a heap: O(v + E log V). in melake
+
+        Here, V is the number of vertices and E is the number of edges.
+
+        Overall, weighted graphs are useful when the connections between nodes have different costs. Algorithms such as Dijkstra's algorithm are used to find shortest paths, while Prim's algorithm is used to create a minimum spanning tree with the smallest possible total edge weight
