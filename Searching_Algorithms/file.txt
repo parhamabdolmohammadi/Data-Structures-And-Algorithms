@@ -1,0 +1,331 @@
+## Searching Algorithms
+
+Searching algorithms are used to find a specific value inside a collection of data.
+
+In this implementation, I use **Linear Search, Binary Search, Ternary Search, Jump Search, and Exponential Search**.
+
+An important detail is that most of these algorithms require the array to be **sorted first**. Because this implementation creates and sorts a copy of the array, the returned index refers to the **sorted array**, not necessarily the original array.
+
+### Linear Search
+
+    Linear Search checks every element one by one until the target value is found.
+
+    For example:
+
+    ```text
+    [3, 7, 2, 9, 5]
+
+    Searching for 9:
+
+    3 → 7 → 2 → 9 ✓
+    ```
+
+    In the best case, the target is the first element.
+
+    **Best Time Complexity: O(1).**
+
+    In the average and worst cases, many or all elements may need to be checked.
+
+    **Average Time Complexity: O(n).**
+
+    **Worst Time Complexity: O(n).**
+
+    Linear Search does not require any additional data structure.
+
+    **Space Complexity: O(1).**
+
+### Binary Search
+
+    Binary Search works on a **sorted array**.
+
+    Instead of checking every element, it compares the target with the middle element and eliminates half of the remaining search space.
+
+    For example:
+
+    ```text
+    [1, 2, 3, 4, 5, 6, 7]
+
+                4
+            /   \
+        smaller  larger
+    ```
+
+    If we are searching for `6`, we know that everything smaller than or equal to the middle can be ignored after the comparison.
+
+    Each recursive step reduces the search space approximately by half:
+
+    ```text
+    n
+    n / 2
+    n / 4
+    n / 8
+    ...
+    1
+    ```
+
+    Therefore, the search itself takes:
+
+    **Time Complexity: O(log n).**
+
+    Because the recursive implementation uses the call stack:
+
+    **Space Complexity: O(log n).**
+
+    However, this implementation first copies and sorts the array.
+
+    Sorting takes:
+
+    **O(n log n).**
+
+    Therefore, if sorting is included:
+
+    **Overall Time Complexity: O(n log n).**
+
+    The array copy also requires:
+
+    **Additional Space Complexity: O(n).**
+
+### Iterative Binary Search
+
+    The iterative version of Binary Search uses a loop instead of recursion.
+
+    It keeps three important values:
+
+    ```text
+    beg
+    end
+    mid_index
+    ```
+
+    After every comparison, either the left half or the right half is eliminated.
+
+    The search itself takes:
+
+    **Time Complexity: O(log n).**
+
+    Because no recursive call stack is needed:
+
+    **Search Space Complexity: O(1).**
+
+    However, this implementation still copies and sorts the array first.
+
+    **Overall Time Complexity including sorting: O(n log n).**
+
+    Because the array is copied:
+
+    **Overall Additional Space Complexity: O(n).**
+
+    ### Recursive vs Iterative Binary Search
+
+    Both versions perform the same searching strategy.
+
+    **Recursive Binary Search Time: O(log n).**
+
+    **Iterative Binary Search Time: O(log n).**
+
+    The main difference is auxiliary space.
+
+    The recursive version uses the call stack.
+
+    **Recursive Search Space: O(log n).**
+
+    The iterative version only needs a few variables.
+
+    **Iterative Search Space: O(1).**
+
+    So the iterative implementation is more space efficient.
+
+### Ternary Search
+
+    Ternary Search is similar to Binary Search, but instead of splitting the search range into two sections, it splits it into **three sections**.
+
+    It uses two middle points:
+
+    ```text
+    left      mid1      mid2      right
+    |---------|---------|----------|
+    ```
+
+    The target is compared with both middle values.
+
+    Depending on the result, only one-third of the search space is kept.
+
+    The search space becomes approximately:
+
+    ```text
+    n
+    n / 3
+    n / 9
+    n / 27
+    ...
+    1
+    ```
+
+    Therefore:
+
+    **Search Time Complexity: O(log₃ n).**
+
+    In Big-O notation, the logarithm base is normally ignored, so this is usually written as:
+
+    **O(log n).**
+
+    Because this implementation is recursive:
+
+    **Search Space Complexity: O(log n).**
+
+    This implementation also copies and sorts the array first.
+
+    **Overall Time Complexity including sorting: O(n log n).**
+
+    **Overall Additional Space Complexity: O(n).**
+
+### Binary Search vs Ternary Search
+
+    Both Binary Search and Ternary Search have logarithmic time complexity.
+
+    Binary Search divides the search space into two sections.
+
+    Ternary Search divides it into three sections.
+
+    Although Ternary Search eliminates more of the array per step, it normally performs more comparisons during each iteration.
+
+    For normal sorted arrays, Binary Search is generally preferred.
+
+    ### Jump Search
+
+    Jump Search also requires a sorted array.
+
+    Instead of checking every element, it jumps forward by blocks.
+
+    The ideal block size is approximately:
+
+    ```text
+    √n
+    ```
+
+    For example, if the array contains 100 elements:
+
+    ```text
+    √100 = 10
+    ```
+
+    the algorithm can jump approximately:
+
+    ```text
+    0 → 10 → 20 → 30 → ...
+    ```
+
+    Once it finds the block where the target should exist, it performs a Linear Search inside that block.
+
+    The jumping phase takes approximately:
+
+    **O(√n).**
+
+    The Linear Search inside the final block also takes at most:
+
+    **O(√n).**
+
+    These operations happen one after another:
+
+    ```text
+    O(√n) + O(√n)
+    ```
+
+    which simplifies to:
+
+    **Search Time Complexity: O(√n).**
+
+    The search itself uses only a few variables.
+
+    **Search Space Complexity: O(1).**
+
+    However, this implementation first copies and sorts the array.
+
+    **Overall Time Complexity including sorting: O(n log n).**
+
+    Because of the copied array:
+
+    **Overall Additional Space Complexity: O(n).**
+
+### Exponential Search
+
+    Exponential Search is useful when we want to quickly identify a range in which the target may exist.
+
+    It starts with a bound of `1` and repeatedly doubles it:
+
+    ```text
+    1
+    2
+    4
+    8
+    16
+    32
+    ...
+    ```
+
+    This continues until the algorithm goes beyond the target or reaches the end of the array.
+
+    Finding this range takes:
+
+    **Time Complexity: O(log n).**
+
+    After finding the range, Binary Search is performed inside that smaller section.
+
+    Binary Search also takes:
+
+    **Time Complexity: O(log n).**
+
+    Because these operations happen sequentially:
+
+    ```text
+    O(log n) + O(log n)
+    ```
+
+    which simplifies to:
+
+    **Search Time Complexity: O(log n).**
+
+    In this implementation, the final Binary Search is recursive, so the search uses:
+
+    **Space Complexity: O(log n).**
+
+    Also, because the array is copied and sorted first:
+
+    **Overall Time Complexity including sorting: O(n log n).**
+
+    **Overall Additional Space Complexity: O(n).**
+
+### Overall Comparison
+
+    The important searching complexities are:
+
+    **Linear Search: O(n).**
+
+    **Recursive Binary Search: O(log n) search time and O(log n) recursive space.**
+
+    **Iterative Binary Search: O(log n) search time and O(1) search space.**
+
+    **Ternary Search: O(log n).**
+
+    **Jump Search: O(√n).**
+
+    **Exponential Search: O(log n).**
+
+    Linear Search does not require sorted data.
+
+    Binary Search, Ternary Search, Jump Search, and Exponential Search require the data to be sorted.
+
+    In this particular implementation, those algorithms sort a copied array before searching, so their complete running time becomes dominated by sorting:
+
+    **Overall Time Complexity: O(n log n).**
+
+    If the array were already sorted, then their actual search complexities would remain:
+
+    ```text
+    Binary Search      → O(log n)
+    Ternary Search     → O(log n)
+    Jump Search        → O(√n)
+    Exponential Search → O(log n)
+    ```
+
+    Overall, **Binary Search is usually the best general choice for searching a sorted array**, while Linear Search is useful when the data is unsorted or the array is very small.
